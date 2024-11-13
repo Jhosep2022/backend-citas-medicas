@@ -17,6 +17,17 @@ class PersonaService(
     private val especialidadRepository: EspecialidadRepository,
     private val consultorioRepository: ConsultorioRepository
 ) {
+    fun login(usuario: String, clave: String): PersonaDto? {
+        val persona = personaRepository.findByUsuario(usuario)
+            ?: throw IllegalArgumentException("Usuario no encontrado")
+
+        return if (persona.clave == clave && persona.estado) {
+            persona.toDto() // Devuelve el DTO si las credenciales son correctas y la persona está activa
+        } else {
+            throw IllegalArgumentException("Credenciales inválidas")
+        }
+    }
+
     @Transactional
     fun registrarPersona(
         nombres: String,

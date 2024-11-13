@@ -1,5 +1,6 @@
 package com.example.backendcitamedica.controller
 
+import com.example.backendcitamedica.dto.LoginRequest
 import com.example.backendcitamedica.dto.PersonaDto
 import com.example.backendcitamedica.service.PersonaService
 import org.slf4j.LoggerFactory
@@ -14,6 +15,17 @@ class PersonaController(
     private val personaService: PersonaService
 ) {
     private val logger = LoggerFactory.getLogger(PersonaController::class.java)
+
+    @PostMapping("/login")
+    fun login(@RequestBody request: LoginRequest): ResponseEntity<PersonaDto> {
+        return try {
+            val persona = personaService.login(request.usuario, request.clave)
+            ResponseEntity.ok(persona)
+        } catch (ex: IllegalArgumentException) {
+            logger.error("Error en login: ${ex.message}")
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null)
+        }
+    }
 
     // Endpoint para que el administrador registre solo una persona
     @PostMapping("/registrar-persona")

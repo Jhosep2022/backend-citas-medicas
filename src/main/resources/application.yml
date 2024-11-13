@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/CitasMedicasDBase
+    url: jdbc:postgresql://localhost:5433/CitasMedicasDB
     username: postgres
     password: jose
     driver-class-name: org.postgresql.Driver
